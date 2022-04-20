@@ -18,6 +18,11 @@ func Serve(cfg *Config) {
 	})
 	client := dns.NewClient()
 
+	// @TODO
+	if cfg.Cache.Engine == "" {
+		cfg.Cache.Engine = "memory"
+	}
+
 	cache, err := kv.New(&kvtyping.Config{
 		Engine: cfg.Cache.Engine,
 		Config: &cfg.Cache.Config,
