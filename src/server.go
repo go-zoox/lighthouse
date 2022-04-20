@@ -8,6 +8,7 @@ import (
 	"github.com/go-zoox/logger"
 )
 
+// Config is the configuration of lighthouse
 func Serve(cfg *Config) {
 	server := dns.NewServer(&dns.ServerOptions{
 		Port: 53,

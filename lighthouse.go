@@ -2,6 +2,7 @@ package main
 
 import (
 	"os"
+	"strconv"
 
 	"github.com/go-zoox/fs"
 	"github.com/go-zoox/fs/type/yaml"
@@ -21,26 +22,41 @@ func main() {
 				Usage:   "The path to the configuration file",
 				Aliases: []string{"c"},
 			},
+			&cli.StringFlag{
+				Name:    "port",
+				Value:   "53",
+				Usage:   "The port to listen on (Only works when config file is not specified)",
+				Aliases: []string{"p"},
+			},
 		},
 		Action: func(c *cli.Context) error {
 			configFilePath := c.String("config")
-			if configFilePath == "" {
-				logger.Error("config file is required")
-				os.Exit(1)
-			}
-
-			if !fs.IsExist(configFilePath) {
-				logger.Error("config file(%s) not found", configFilePath)
-				os.Exit(1)
-			}
+			// if configFilePath == "" {
+			// 	logger.Error("config file is required")
+			// 	os.Exit(1)
+			// }
 
 			var config lighthouse.Config
-			if err := yaml.Read(configFilePath, &config); err != nil {
-				logger.Error("failed to read config file", err)
-				os.Exit(1)
-			}
 
-			// fmt.Println(config)
+			if configFilePath != "" {
+				if !fs.IsExist(configFilePath) {
+					logger.Error("config file(%s) not found", configFilePath)
+					os.Exit(1)
+				}
+
+				if err := yaml.Read(configFilePath, &config); err != nil {
+					logger.Error("failed to read config file", err)
+					os.Exit(1)
+				}
+			} else {
+				port, err := strconv.Atoi(c.String("port"))
+				if err != nil {
+					logger.Error("failed to parse port", err)
+					os.Exit(1)
+				}
+
+				config.Server.Port = int64(port)
+			}
 
 			lighthouse.Serve(&config)
 
