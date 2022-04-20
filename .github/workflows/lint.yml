@@ -9,8 +9,39 @@ on:
     branches: [ master ]
 
 jobs:
+on-success:
+    needs: lint
+    runs-on: ubuntu-latest
+    if: ${{ always() && needs.lint.result == 'success' }}
+    steps:
+      - name: Notification Feishu
+        uses: whatwewant/action-robot-feishu@v0.0.13
+        with:
+          url: ${{ secrets.DOCKER_VERSION_FEISHU_BOT_WEBHOOK_URL }}
+          title: '✅ Lint 测试：${{ github.repository }}'
+          text: |
+            分支: ${{ github.ref }}
+            提交信息: ${{ github.event.head_commit.message }}
+            提交人: ${{ github.actor }}
+            状态: 构建成功（https://github.com/${{ github.repository }}/actions/runs/${{ github.run.id }}）
 
-  ci:
+  on-failure:
+    needs: lint
+    runs-on: ubuntu-latest
+    if: ${{ always() && needs.lint.result == 'failure' }}
+    steps:
+      - name: Notification Feishu
+        uses: whatwewant/action-robot-feishu@v0.0.13
+        with:
+          url: ${{ secrets.DOCKER_VERSION_FEISHU_BOT_WEBHOOK_URL }}
+          title: '❌ Lint 测试：${{ github.repository }}'
+          text: |
+            分支: ${{ github.ref }}
+            提交信息: ${{ github.event.head_commit.message }}
+            提交人: ${{ github.actor }}
+            状态: 构建失败（https://github.com/${{ github.repository }}/actions/runs/${{ github.run.id }}）
+
+  lint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
