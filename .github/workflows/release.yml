@@ -6,7 +6,7 @@ on:
       - 'v*'
 
 jobs:
- on-success:
+  on-success:
     needs: build
     runs-on: ubuntu-latest
     if: ${{ always() && needs.build.result == 'success' }}

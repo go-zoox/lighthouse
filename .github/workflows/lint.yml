@@ -9,7 +9,7 @@ on:
     branches: [ master ]
 
 jobs:
-on-success:
+  on-success:
     needs: lint
     runs-on: ubuntu-latest
     if: ${{ always() && needs.lint.result == 'success' }}
