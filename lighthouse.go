@@ -17,8 +17,8 @@ func main() {
 		Description: "A simple dns server",
 		Flags: []cli.Flag{
 			&cli.StringFlag{
-				Name:    "config",
-				Value:   "conf/lighthouse.yaml",
+				Name: "config",
+				// Value:   "conf/lighthouse.yaml",
 				Usage:   "The path to the configuration file",
 				Aliases: []string{"c"},
 			},
