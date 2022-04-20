@@ -58,6 +58,11 @@ func main() {
 				config.Server.Port = int64(port)
 			}
 
+			// @TODO
+			if os.Getenv("DEBUG") == "true" {
+				logger.Debug("config: %v", config)
+			}
+
 			lighthouse.Serve(&config)
 
 			return nil

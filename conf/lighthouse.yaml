@@ -9,13 +9,14 @@ server:
 cache:
   engine: memory
   max_age: 600 # 10 minutes
-  # capacity: 0 # If set zero
+  # # capacity: 0 # If set zero
   # engine: redis
   # config:
   #   host: 127.0.0.1
   #   port: 6379
-  #   db: 0
-  #   password: ""
+  #   db: 1
+  #   password: 
+  #   prefix: "lighthouse:"
 
 log:
   transport: console

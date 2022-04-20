@@ -1,10 +1,13 @@
 package lighthouse
 
 import (
+	"encoding/json"
 	"fmt"
+	"os"
 
 	"github.com/go-zoox/dns"
 	"github.com/go-zoox/kv"
+	kvtyping "github.com/go-zoox/kv/typing"
 	"github.com/go-zoox/logger"
 )
 
@@ -15,24 +18,29 @@ func Serve(cfg *Config) {
 	})
 	client := dns.NewClient()
 
-	cache := kv.NewMemory()
+	cache, err := kv.New(&kvtyping.Config{
+		Engine: cfg.Cache.Engine,
+		Config: &cfg.Cache.Config,
+	})
+	if err != nil {
+		logger.Error("failed to create cache", err)
+		os.Exit(1)
+	}
 
 	server.Handle(func(host string, typ int) ([]string, error) {
-		key := fmt.Sprintf("%s_%d", host, typ)
+		key := fmt.Sprintf("%s:%d", host, typ)
 		if cache.Has(key) {
-			return cache.Get(key).([]string), nil
-		}
-
-		// logger.Info("lookup refresh: %s", host)
-		if host == "zero.com" {
-			cache.Set(key, []string{"6.6.6.6"}, 5*60*1000)
-			return []string{"6.6.6.6"}, nil
+			ipstr := cache.Get(key)
+			var ips []string
+			json.Unmarshal([]byte(ipstr), &ips)
+			return ips, nil
 		}
 
 		if ips, err := client.LookUp(host, &dns.LookUpOptions{Typ: typ}); err != nil {
 			return nil, err
 		} else {
-			cache.Set(key, ips, 5*60*1000)
+			ipstr, _ := json.Marshal(ips)
+			cache.Set(key, string(ipstr), 5*60*1000)
 			logger.Info("found host(%s %d) %v", host, typ, ips)
 			return ips, nil
 		}

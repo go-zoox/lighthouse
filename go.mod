@@ -3,9 +3,9 @@ module github.com/go-zoox/lighthouse
 go 1.18
 
 require (
-	github.com/go-zoox/dns v1.0.0
+	github.com/go-zoox/dns v1.0.1
 	github.com/go-zoox/fs v1.1.1
-	github.com/go-zoox/kv v1.1.7
+	github.com/go-zoox/kv v1.1.8
 	github.com/go-zoox/logger v1.1.0
 	github.com/urfave/cli/v2 v2.4.0
 )
@@ -27,9 +27,9 @@ require (
 	github.com/mattn/go-sqlite3 v1.14.12 // indirect
 	github.com/miekg/dns v1.1.48 // indirect
 	github.com/russross/blackfriday/v2 v2.1.0 // indirect
-	golang.org/x/mod v0.4.2 // indirect
-	golang.org/x/net v0.0.0-20210726213435-c6fcb2dbf985 // indirect
+	golang.org/x/mod v0.6.0-dev.0.20220106191415-9b9b3d81d5e3 // indirect
+	golang.org/x/net v0.0.0-20220418201149-a630d4f3e7a2 // indirect
 	golang.org/x/sys v0.0.0-20220412211240-33da011f77ad // indirect
-	golang.org/x/tools v0.1.6-0.20210726203631-07bc1bf47fb2 // indirect
-	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1 // indirect
+	golang.org/x/tools v0.1.10 // indirect
+	golang.org/x/xerrors v0.0.0-20220411194840-2f41105eb62f // indirect
 )
