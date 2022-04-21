@@ -23,6 +23,8 @@ github.com/go-zoox/datetime v1.0.4 h1:LIOfo7svKD9gpyaTxAM55t2EO+CFFFcXczqLSfM1sP
 github.com/go-zoox/datetime v1.0.4/go.mod h1:os6lYW/GXNpCIseFrBr8DNcOiPuwl5Ttc/kxo4JnMjw=
 github.com/go-zoox/dns v1.0.1 h1:CQNxZZk98VZ/CJR27QrS0crRhSA9KVSgIRG7mENxPZY=
 github.com/go-zoox/dns v1.0.1/go.mod h1:o+BWQGOHzNva4b2Y+4plzuKTd30gtM7TN+zhLJDJBfc=
+github.com/go-zoox/dns v1.0.2 h1:s3flkU2w1443bLzd1zNFVCXCg7edEXYujCxe4/JBGsc=
+github.com/go-zoox/dns v1.0.2/go.mod h1:o+BWQGOHzNva4b2Y+4plzuKTd30gtM7TN+zhLJDJBfc=
 github.com/go-zoox/dotenv v1.0.7 h1:Z1fXQiY0/gk6gQFaA9fAhdqBeqytp+Ob6RuLymfpxAM=
 github.com/go-zoox/encoding v1.0.1 h1:WdSdlzePvVHdjR93cpX0cFAm4cXBIfHMWPERQZOOmec=
 github.com/go-zoox/encoding v1.0.1/go.mod h1:btbQ8YnhKEgP/4AgP5JsV0eYWoPqzFttmCox1QMiq4w=
@@ -78,6 +80,8 @@ golang.org/x/net v0.0.0-20210405180319-a5a99cb37ef4/go.mod h1:p54w0d4576C0XHj96b
 golang.org/x/net v0.0.0-20210726213435-c6fcb2dbf985/go.mod h1:9nx3DQGgdP8bBQD5qxJ1jj9UTztislL4KSBs9R2vV5Y=
 golang.org/x/net v0.0.0-20220418201149-a630d4f3e7a2 h1:6mzvA99KwZxbOrxww4EvWVQUnN1+xEu9tafK5ZxkYeA=
 golang.org/x/net v0.0.0-20220418201149-a630d4f3e7a2/go.mod h1:CfG3xpIq0wQ8r1q4Su4UZFWDARRcnwPjda9FqA0JpMk=
+golang.org/x/net v0.0.0-20220420153159-1850ba15e1be h1:yx80W7nvY5ySWpaU8UWaj5o9e23YgO9BRhQol7Lc+JI=
+golang.org/x/net v0.0.0-20220420153159-1850ba15e1be/go.mod h1:CfG3xpIq0wQ8r1q4Su4UZFWDARRcnwPjda9FqA0JpMk=
 golang.org/x/sync v0.0.0-20190423024810-112230192c58/go.mod h1:RxMgew5VJxzue5/jJTE5uejpjVlOe/izrB70Jof72aM=
 golang.org/x/sync v0.0.0-20210220032951-036812b2e83c h1:5KslGYwFpkhGh+Q16bwMP3cOontH8FOep7tGV86Y7SQ=
 golang.org/x/sync v0.0.0-20210220032951-036812b2e83c/go.mod h1:RxMgew5VJxzue5/jJTE5uejpjVlOe/izrB70Jof72aM=

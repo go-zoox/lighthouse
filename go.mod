@@ -3,7 +3,7 @@ module github.com/go-zoox/lighthouse
 go 1.18
 
 require (
-	github.com/go-zoox/dns v1.0.1
+	github.com/go-zoox/dns v1.0.2
 	github.com/go-zoox/fs v1.1.1
 	github.com/go-zoox/kv v1.1.8
 	github.com/go-zoox/logger v1.1.0
@@ -28,7 +28,7 @@ require (
 	github.com/miekg/dns v1.1.48 // indirect
 	github.com/russross/blackfriday/v2 v2.1.0 // indirect
 	golang.org/x/mod v0.6.0-dev.0.20220106191415-9b9b3d81d5e3 // indirect
-	golang.org/x/net v0.0.0-20220418201149-a630d4f3e7a2 // indirect
+	golang.org/x/net v0.0.0-20220420153159-1850ba15e1be // indirect
 	golang.org/x/sys v0.0.0-20220412211240-33da011f77ad // indirect
 	golang.org/x/tools v0.1.10 // indirect
 	golang.org/x/xerrors v0.0.0-20220411194840-2f41105eb62f // indirect
