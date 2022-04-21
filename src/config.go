@@ -11,7 +11,8 @@ type Config struct {
 		Host string
 		Port int64
 	}
-	Cache struct {
+	Upstreams []string
+	Cache     struct {
 		Engine string
 		MaxAge string
 		// Config struct {

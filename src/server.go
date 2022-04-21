@@ -16,7 +16,15 @@ func Serve(cfg *Config) {
 	server := dns.NewServer(&dns.ServerOptions{
 		Port: 53,
 	})
-	client := dns.NewClient()
+
+	var servers []*dns.ClientDNSServer
+	for _, upstream := range cfg.Upstreams {
+		servers = append(servers, dns.NewClientDNSServer(upstream, 53))
+	}
+
+	client := dns.NewClient(&dns.ClientOptions{
+		Servers: servers,
+	})
 
 	// @TODO
 	if cfg.Cache.Engine == "" {
