@@ -3,7 +3,7 @@ module github.com/go-zoox/lighthouse
 go 1.18
 
 require (
-	github.com/go-zoox/dns v1.0.5
+	github.com/go-zoox/dns v1.0.6
 	github.com/go-zoox/fs v1.1.1
 	github.com/go-zoox/kv v1.1.8
 	github.com/go-zoox/logger v1.1.0
