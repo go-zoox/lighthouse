@@ -41,6 +41,10 @@ func Serve(cfg *Config) {
 	}
 
 	server.Handle(func(host string, typ int) ([]string, error) {
+		if host == "zero.com" && typ == 4 {
+			return []string{"6.6.6.6"}, nil
+		}
+
 		key := fmt.Sprintf("%s:%d", host, typ)
 		if cache.Has(key) {
 			ipstr := cache.Get(key)
@@ -50,6 +54,8 @@ func Serve(cfg *Config) {
 		}
 
 		if ips, err := client.LookUp(host, &dns.LookUpOptions{Typ: typ}); err != nil {
+			ipstr, _ := json.Marshal([]string{})
+			cache.Set(key, string(ipstr), 1*60*1000)
 			return nil, err
 		} else {
 			ipstr, _ := json.Marshal(ips)
