@@ -117,19 +117,21 @@ windows-arm64:
 windows-arm32v7:
 	GOARCH=arm GOOS=windows GOARM=7 $(GOBUILD) -o $(BINDIR)/$(NAME)-$@.exe
 
-gz_releases=$(addsuffix .gz, $(PLATFORM_LIST))
+gz_releases=$(addsuffix .tgz, $(PLATFORM_LIST))
 zip_releases=$(addsuffix .zip, $(WINDOWS_ARCH_LIST))
 
-$(gz_releases): %.gz : %
+$(gz_releases): %.tgz : %
 	chmod +x $(BINDIR)/$(NAME)-$(basename $@)
-	gzip -f -S -$(VERSION).gz $(BINDIR)/$(NAME)-$(basename $@)
+	echo $(NAME)-$(basename $@)
+	tar --remove-files -zcvf $(BINDIR)/$(NAME)-$(basename $@).tgz $(BINDIR)/$(NAME)-$(basename $@)
+	# gzip -f -S -$(VERSION).gz $(BINDIR)/$(NAME)-$(basename $@)
 
 $(zip_releases): %.zip : %
 	zip -m -j $(BINDIR)/$(NAME)-$(basename $@)-$(VERSION).zip $(BINDIR)/$(NAME)-$(basename $@).exe
 
 all-arch: $(PLATFORM_LIST) $(WINDOWS_ARCH_LIST)
 
-releases: $(gz_releases) $(zip_releases)
+releases: $(gz_releases) # $(zip_releases)
 
 lint:
 	golangci-lint run ./...
