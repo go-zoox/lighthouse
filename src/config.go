@@ -28,4 +28,8 @@ type Config struct {
 		Transport string
 		Level     string
 	}
+	Hosts struct {
+		Enable bool
+		File   string
+	}
 }

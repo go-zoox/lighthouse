@@ -6,8 +6,10 @@ import (
 	"os"
 
 	"github.com/go-zoox/dns"
+	"github.com/go-zoox/fs"
 	"github.com/go-zoox/kv"
 	kvtyping "github.com/go-zoox/kv/typing"
+	hostsParser "github.com/go-zoox/lighthouse/lib/hosts"
 	"github.com/go-zoox/logger"
 )
 
@@ -40,12 +42,28 @@ func Serve(cfg *Config) {
 		os.Exit(1)
 	}
 
+	var hosts *hostsParser.Hosts
+	if cfg.Hosts.Enable {
+		if !fs.IsExist(cfg.Hosts.File) {
+			logger.Error("hosts file(%s) not found", cfg.Hosts.File)
+			os.Exit(1)
+		}
+
+		hosts = hostsParser.New(cfg.Hosts.File)
+		if err := hosts.Load(); err != nil {
+			logger.Error("failed to load hosts file", err)
+			os.Exit(1)
+		}
+	}
+
 	server.Handle(func(host string, typ int) ([]string, error) {
 		if host == "zero.com" && typ == 4 {
 			return []string{"6.6.6.6"}, nil
 		}
 
 		key := fmt.Sprintf("%s:%d", host, typ)
+
+		// from cache
 		if cache.Has(key) {
 			ipstr := cache.Get(key)
 			var ips []string
@@ -53,6 +71,17 @@ func Serve(cfg *Config) {
 			return ips, nil
 		}
 
+		// from host
+		if hosts != nil {
+			if ip, err := hosts.LookUp(host, typ); err == nil {
+				ips := []string{ip}
+				ipstr, _ := json.Marshal(ips)
+				cache.Set(key, string(ipstr), 5*60*1000)
+				return ips, nil
+			}
+		}
+
+		// from upstream
 		if ips, err := client.LookUp(host, &dns.LookUpOptions{Typ: typ}); err != nil {
 			ipstr, _ := json.Marshal([]string{})
 			cache.Set(key, string(ipstr), 1*60*1000)

@@ -25,3 +25,7 @@ cache:
 log:
   transport: console
   level: 'debug'
+
+hosts:
+  enable: true
+  file: /etc/hosts
