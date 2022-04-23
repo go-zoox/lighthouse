@@ -1,9 +1,11 @@
 NAME=lighthouse
 BINDIR=bin
 VERSION=$(shell git describe --tags || echo "unknown version")
-BUILDTIME=$(shell date -u)
+BUILD_TIME=$(shell date +%Y-%m-%d)
+COMMIT_HASH=$(shell git rev-parse --short HEAD)
 GOBUILD=CGO_ENABLED=0 go build -trimpath -ldflags '-X "github.com/go-zoox/lighthouse/constants.Version=$(VERSION)" \
-		-X "github.com/go-zoox/lighthouse/constants.BuildTime=$(BUILDTIME)" \
+		-X "github.com/go-zoox/lighthouse/constants.BuildTime=$(BUILD_TIME)" \
+		-X "github.com/go-zoox/lighthouse/constants.CommitHash=$(COMMIT_HASH)" \
 		-w -s -buildid='
 
 PLATFORM_LIST = \
@@ -131,6 +133,8 @@ releases: $(gz_releases) $(zip_releases)
 
 lint:
 	golangci-lint run ./...
+
+build: linux-amd64
 
 clean:
 	rm $(BINDIR)/*

@@ -1,11 +1,13 @@
 package main
 
 import (
+	"fmt"
 	"os"
 	"strconv"
 
 	"github.com/go-zoox/fs"
 	"github.com/go-zoox/fs/type/yaml"
+	"github.com/go-zoox/lighthouse/constants"
 	lighthouse "github.com/go-zoox/lighthouse/src"
 	"github.com/go-zoox/logger"
 	"github.com/urfave/cli/v2"
@@ -14,7 +16,9 @@ import (
 func main() {
 	app := &cli.App{
 		Name:        "lighthouse",
-		Description: "A simple dns server",
+		Usage:       "DNS Server",
+		Description: "An Easy Self Hosted DNS Server",
+		Version:     fmt.Sprintf("%s (%s %s)", constants.Version, constants.CommitHash, constants.BuildTime),
 		Flags: []cli.Flag{
 			&cli.StringFlag{
 				Name: "config",

@@ -53,12 +53,17 @@ jobs:
       - name: Docker Meta
         id: meta
         run: |
-          IMAGE_VERSION=$(echo ${GITHUB_REF} | sed -e "s%refs/tags/%%g")
+          VERSION=$(echo ${GITHUB_REF} | sed -e "s%refs/tags/%%g")
+          BUILD_TIME=$(date +%Y-%m-%d)
+          COMMIT_HASH=$(git rev-parse --short HEAD)
           ACTION_IMAGE_NAME=$(echo $ACTION_IMAGE_REPO | awk -F "/" '{print $2}')
           IMAGE_NAME=${ACTION_IMAGE_NAMESPACE}/${ACTION_IMAGE_NAME}
-          IMAGE_TAGS=${IMAGE_NAME}:${IMAGE_VERSION}
+          IMAGE_TAGS=${IMAGE_NAME}:${VERSION}
           echo "IMAGE_TAGS: ${IMAGE_TAGS}"
-          echo "::set-output name=version::${IMAGE_VERSION}"
+          echo "VERSION: ${VERSION} (${COMMIT_HASH} ${BUILD_TIME})"
+          echo "::set-output name=version::${VERSION}"
+          echo "::set-output name=build_time::${BUILD_TIME}"
+          echo "::set-output name=commit_hash::${COMMIT_HASH}"
           echo "::set-output name=name::${IMAGE_NAME}"
           echo "::set-output name=tags::${IMAGE_TAGS}"
         shell: bash
@@ -89,6 +94,8 @@ jobs:
         with:
           build-args: |
             VERSION=${{ steps.meta.outputs.version }}
+            BUILD_TIME=${{ steps.meta.outputs.build_time }}
+            COMMIT_HASH=${{ steps.meta.outputs.commit_hash }}
           context: .
           push: ${{ github.event_name != 'pull_request' }}
           cache-from: type=registry,ref=${{ steps.meta.outputs.name }}:buildcache

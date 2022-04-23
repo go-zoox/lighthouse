@@ -11,9 +11,23 @@ COPY        go.sum ./
 
 RUN         go mod download
 
+ARG         VERSION=unknown
+
+ARG         BUILDTIME=unknown
+
+ARG         COMMITHASH=unknown
+
 COPY        . ./
 
-RUN         CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags="-w -s" -v -o lighthouse
+RUN         CGO_ENABLED=0 \
+            GOOS=linux \
+            GOARCH=amd64 \
+              -trimpath -ldflags \
+                '-X "github.com/go-zoox/lighthouse/constants.Version=$(VERSION)" \
+                -X "github.com/go-zoox/lighthouse/constants.BuildTime=$(BUILDTIME)" \
+                -X "github.com/go-zoox/lighthouse/constants.CommitHash=$(COMMITHASH)" \
+                -w -s -buildid=' \
+            go build -ldflags="-w -s" -v -o lighthouse
 
 # Product
 FROM  scratch
