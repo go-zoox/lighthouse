@@ -4,7 +4,7 @@ go 1.18
 
 require (
 	github.com/go-zoox/dns v1.0.8
-	github.com/go-zoox/fs v1.1.1
+	github.com/go-zoox/fs v1.2.0
 	github.com/go-zoox/kv v1.1.8
 	github.com/go-zoox/logger v1.1.0
 	github.com/urfave/cli/v2 v2.4.0

@@ -7,9 +7,9 @@ import (
 
 	"github.com/go-zoox/dns"
 	"github.com/go-zoox/fs"
+	hostsParser "github.com/go-zoox/fs/type/hosts"
 	"github.com/go-zoox/kv"
 	kvtyping "github.com/go-zoox/kv/typing"
-	hostsParser "github.com/go-zoox/lighthouse/lib/hosts"
 	"github.com/go-zoox/logger"
 )
 
