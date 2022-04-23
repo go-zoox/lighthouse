@@ -13,9 +13,9 @@ RUN         go mod download
 
 ARG         VERSION=unknown
 
-ARG         BUILDTIME=unknown
+ARG         BUILD_TIME=unknown
 
-ARG         COMMITHASH=unknown
+ARG         COMMIT_HASH=unknown
 
 COPY        . ./
 
@@ -25,9 +25,9 @@ RUN         CGO_ENABLED=0 \
             go build \
               -trimpath \
               -ldflags '\
-                -X "github.com/go-zoox/lighthouse/constants.Version=$(VERSION)" \
-                -X "github.com/go-zoox/lighthouse/constants.BuildTime=$(BUILDTIME)" \
-                -X "github.com/go-zoox/lighthouse/constants.CommitHash=$(COMMITHASH)" \
+                -X "github.com/go-zoox/lighthouse/constants.Version=${VERSION}" \
+                -X "github.com/go-zoox/lighthouse/constants.BuildTime=${BUILD_TIME}" \
+                -X "github.com/go-zoox/lighthouse/constants.CommitHash=${COMMIT_HASH}" \
                 -w -s -buildid= \
               ' \
               -v -o lighthouse
