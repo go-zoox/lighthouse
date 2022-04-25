@@ -5,8 +5,8 @@ import (
 	"os"
 	"strconv"
 
+	"github.com/go-zoox/config"
 	"github.com/go-zoox/fs"
-	"github.com/go-zoox/fs/type/yaml"
 	"github.com/go-zoox/lighthouse/constants"
 	lighthouse "github.com/go-zoox/lighthouse/src"
 	"github.com/go-zoox/logger"
@@ -40,7 +40,7 @@ func main() {
 			// 	os.Exit(1)
 			// }
 
-			var config lighthouse.Config
+			var cfg lighthouse.Config
 
 			if configFilePath != "" {
 				if !fs.IsExist(configFilePath) {
@@ -48,10 +48,16 @@ func main() {
 					os.Exit(1)
 				}
 
-				if err := yaml.Read(configFilePath, &config); err != nil {
+				if err := config.Load(&cfg, &config.LoadOptions{
+					FilePath: configFilePath,
+				}); err != nil {
 					logger.Error("failed to read config file", err)
 					os.Exit(1)
 				}
+
+				// j, _ := json.MarshalIndent(cfg, "", "  ")
+				// fmt.Println(string(j))
+				// os.Exit(0)
 			} else {
 				port, err := strconv.Atoi(c.String("port"))
 				if err != nil {
@@ -59,15 +65,15 @@ func main() {
 					os.Exit(1)
 				}
 
-				config.Server.Port = int64(port)
+				cfg.Server.Port = int64(port)
 			}
 
 			// @TODO
 			if os.Getenv("DEBUG") == "true" {
-				logger.Debug("config: %v", config)
+				logger.Debug("config: %v", cfg)
 			}
 
-			lighthouse.Serve(&config)
+			lighthouse.Serve(&cfg)
 
 			return nil
 		},

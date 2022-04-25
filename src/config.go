@@ -1,35 +1,33 @@
 package lighthouse
 
-import "github.com/go-zoox/kv/redis"
-
 // Config is the configuration of lighthouse
 type Config struct {
-	Title   string
-	Version string
-	Author  string
+	Title   string `config:"title"`
+	Version string `config:"version"`
+	Author  string `config:"author"`
 	Server  struct {
-		Host string
-		Port int64
-	}
-	Upstreams []string
+		Host string `config:"host"`
+		Port int64  `config:"port"`
+	} `config:"server"`
+	Upstreams []string `config:"upstreams"`
 	Cache     struct {
-		Engine string
-		MaxAge string
-		// Config struct {
-		// 	Host     string
-		// 	Port     int
-		// 	Db       int
-		// 	Password string
-		// 	Prefix   string
-		// }
-		Config redis.RedisConfig
-	}
+		Engine string `config:"engine"`
+		MaxAge int64  `config:"max_age"`
+		Config struct {
+			Host     string `config:"host"`
+			Port     int64  `config:"port"`
+			Db       int64  `config:"db"`
+			Password string `config:"password"`
+			Prefix   string `config:"prefix"`
+		} `config:"config"`
+		// Config redis.RedisConfig `config:"config"`
+	} `config:"cache"`
 	Log struct {
-		Transport string
-		Level     string
-	}
+		Transport string `config:"transport"`
+		Level     string `config:"level"`
+	} `config:"log"`
 	Hosts struct {
-		Enable bool
-		File   string
-	}
+		Enable bool   `config:"enable"`
+		File   string `config:"file"`
+	} `config:"hosts"`
 }

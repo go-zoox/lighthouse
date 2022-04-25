@@ -9,6 +9,7 @@ import (
 	"github.com/go-zoox/fs"
 	hostsParser "github.com/go-zoox/fs/type/hosts"
 	"github.com/go-zoox/kv"
+	"github.com/go-zoox/kv/redis"
 	kvtyping "github.com/go-zoox/kv/typing"
 	"github.com/go-zoox/logger"
 )
@@ -35,7 +36,13 @@ func Serve(cfg *Config) {
 
 	cache, err := kv.New(&kvtyping.Config{
 		Engine: cfg.Cache.Engine,
-		Config: &cfg.Cache.Config,
+		Config: &redis.RedisConfig{
+			Host:     cfg.Cache.Config.Host,
+			Port:     int(cfg.Cache.Config.Port),
+			DB:       int(cfg.Cache.Config.Db),
+			Password: cfg.Cache.Config.Password,
+			Prefix:   cfg.Cache.Config.Prefix,
+		},
 	})
 	if err != nil {
 		logger.Error("failed to create cache", err)
