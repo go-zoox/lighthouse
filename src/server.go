@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"github.com/go-zoox/dns"
+	dnsClient "github.com/go-zoox/dns/client"
 	"github.com/go-zoox/fs"
 	hostsParser "github.com/go-zoox/fs/type/hosts"
 	"github.com/go-zoox/kv"
@@ -20,9 +21,10 @@ func Serve(cfg *Config) {
 		Port: 53,
 	})
 
-	var servers []*dns.ClientDNSServer
+	var servers []string
 	for _, upstream := range cfg.Upstreams {
-		servers = append(servers, dns.NewClientDNSServer(upstream, 53))
+		// @TODO valid upstream
+		servers = append(servers, upstream)
 	}
 
 	client := dns.NewClient(&dns.ClientOptions{
@@ -89,7 +91,7 @@ func Serve(cfg *Config) {
 		}
 
 		// from upstream
-		if ips, err := client.LookUp(host, &dns.LookUpOptions{Typ: typ}); err != nil {
+		if ips, err := client.LookUp(host, &dnsClient.LookUpOptions{Typ: typ}); err != nil {
 			ipstr, _ := json.Marshal([]string{})
 			cache.Set(key, string(ipstr), 1*60*1000)
 			return nil, err
