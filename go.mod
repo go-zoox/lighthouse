@@ -4,7 +4,7 @@ go 1.18
 
 require (
 	github.com/go-zoox/config v1.0.4
-	github.com/go-zoox/dns v1.1.1
+	github.com/go-zoox/dns v1.1.2
 	github.com/go-zoox/fs v1.2.2
 	github.com/go-zoox/kv v1.1.8
 	github.com/go-zoox/logger v1.1.0
