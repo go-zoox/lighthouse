@@ -1,7 +1,6 @@
 package lighthouse
 
 import (
-	"encoding/json"
 	"fmt"
 	"os"
 
@@ -74,9 +73,12 @@ func Serve(cfg *Config) {
 
 		// from cache
 		if cache.Has(key) {
-			ipstr := cache.Get(key)
 			var ips []string
-			json.Unmarshal([]byte(ipstr), &ips)
+			err := cache.Get(key, &ips)
+			if err != nil {
+				return nil, err
+			}
+
 			return ips, nil
 		}
 
@@ -84,20 +86,17 @@ func Serve(cfg *Config) {
 		if hosts != nil {
 			if ip, err := hosts.LookUp(host, typ); err == nil {
 				ips := []string{ip}
-				ipstr, _ := json.Marshal(ips)
-				cache.Set(key, string(ipstr), 5*60*1000)
+				cache.Set(key, ips, 5*60*1000)
 				return ips, nil
 			}
 		}
 
 		// from upstream
 		if ips, err := client.LookUp(host, &dnsClient.LookUpOptions{Typ: typ}); err != nil {
-			ipstr, _ := json.Marshal([]string{})
-			cache.Set(key, string(ipstr), 1*60*1000)
+			cache.Set(key, []string{}, 1*60*1000)
 			return nil, err
 		} else {
-			ipstr, _ := json.Marshal(ips)
-			cache.Set(key, string(ipstr), 5*60*1000)
+			cache.Set(key, ips, 5*60*1000)
 			logger.Info("found host(%s %d) %v", host, typ, ips)
 			return ips, nil
 		}
