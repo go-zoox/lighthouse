@@ -8,9 +8,9 @@
 [![Release](https://img.shields.io/github/tag/go-zoox/lighthouse.svg?label=Release)](https://github.com/go-zoox/lighthouse/tags)
 
 ## Features
-* [ ] Plain DNS
+* [x] Plain DNS
 	* [x] Plain DNS in UDP
-	* [ ] Plain DNS in TCP
+	* [x] Plain DNS in TCP
 * [ ] DNS-over-TLS (DoT)
 * [ ] DNS-over-HTTPS (DoH)
 * [ ] DNS-over-QUIC (DoQ)
