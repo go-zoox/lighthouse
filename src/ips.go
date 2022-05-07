@@ -25,6 +25,8 @@ type IPS struct {
 // NewIPS creates a new IPS
 func NewIPS(cfg *Config) *IPS {
 	var servers []string = cfg.Upstreams
+	hostsEnable := cfg.Hosts.Enable
+	hostsFile := cfg.Hosts.File
 
 	client := dns.NewClient(&dns.ClientOptions{
 		Servers: servers,
@@ -34,6 +36,9 @@ func NewIPS(cfg *Config) *IPS {
 	engine := cfg.Cache.Engine
 	if engine == "" {
 		engine = "memory"
+		// @TODO
+		hostsEnable = true
+		hostsFile = "/etc/hosts"
 	}
 
 	// fmt.Println("cfg.Cache.Engine:", engine)
@@ -53,13 +58,13 @@ func NewIPS(cfg *Config) *IPS {
 	}
 
 	var hosts *hostsParser.Hosts
-	if cfg.Hosts.Enable {
-		if !fs.IsExist(cfg.Hosts.File) {
-			logger.Error("hosts file(%s) not found", cfg.Hosts.File)
+	if hostsEnable {
+		if !fs.IsExist(hostsFile) {
+			logger.Error("hosts file(%s) not found", hostsFile)
 			os.Exit(1)
 		}
 
-		hosts = hostsParser.New(cfg.Hosts.File)
+		hosts = hostsParser.New(hostsFile)
 		if err := hosts.Load(); err != nil {
 			logger.Error("failed to load hosts file", err)
 			os.Exit(1)
