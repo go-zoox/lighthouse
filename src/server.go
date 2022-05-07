@@ -1,6 +1,7 @@
 package lighthouse
 
 import (
+	"errors"
 	"fmt"
 	"os"
 
@@ -69,38 +70,79 @@ func Serve(cfg *Config) {
 			return []string{"6.6.6.6"}, nil
 		}
 
-		key := fmt.Sprintf("%s:%d", host, typ)
-
-		// from cache
-		if cache.Has(key) {
-			var ips []string
-			err := cache.Get(key, &ips)
-			if err != nil {
-				return nil, err
-			}
-
-			return ips, nil
-		}
-
-		// from host
-		if hosts != nil {
-			if ip, err := hosts.LookUp(host, typ); err == nil {
-				ips := []string{ip}
-				cache.Set(key, ips, 5*60*1000)
-				return ips, nil
+		wildcardHosts, _ := GetWildcardHost(host)
+		if len(wildcardHosts) > 0 {
+			for _, wildcardHost := range wildcardHosts {
+				ips, err := getIPsByWildcardHost(cache, hosts, client, wildcardHost, typ)
+				fmt.Println("wildcardHosts:", wildcardHost, typ, ips)
+				if err == nil && len(ips) > 0 {
+					return ips, nil
+				}
 			}
 		}
 
-		// from upstream
-		if ips, err := client.LookUp(host, &dnsClient.LookUpOptions{Typ: typ}); err != nil {
-			cache.Set(key, []string{}, 1*60*1000)
-			return nil, err
-		} else {
-			cache.Set(key, ips, 5*60*1000)
-			logger.Info("found host(%s %d) %v", host, typ, ips)
-			return ips, nil
-		}
+		return getIPsByHost(cache, hosts, client, host, typ)
 	})
 
 	server.Serve()
+}
+
+func getIPsByWildcardHost(cache kvtyping.KV, hosts *hostsParser.Hosts, client *dnsClient.Client, host string, typ int) ([]string, error) {
+	key := fmt.Sprintf("%s:%d", host, typ)
+
+	// from cache
+	if cache.Has(key) {
+		var ips []string
+		err := cache.Get(key, &ips)
+		if err != nil {
+			return nil, err
+		}
+
+		return ips, nil
+	}
+
+	// from host
+	if hosts != nil {
+		if ip, err := hosts.LookUp(host, typ); err == nil {
+			ips := []string{ip}
+			cache.Set(key, ips, 5*60*1000)
+			return ips, nil
+		}
+	}
+
+	return nil, errors.New("not found wildcard host:" + host)
+}
+
+func getIPsByHost(cache kvtyping.KV, hosts *hostsParser.Hosts, client *dnsClient.Client, host string, typ int) ([]string, error) {
+	key := fmt.Sprintf("%s:%d", host, typ)
+
+	// from cache
+	if cache.Has(key) {
+		var ips []string
+		err := cache.Get(key, &ips)
+		if err != nil {
+			return nil, err
+		}
+
+		return ips, nil
+	}
+
+	// from host
+	if hosts != nil {
+		if ip, err := hosts.LookUp(host, typ); err == nil {
+			ips := []string{ip}
+			cache.Set(key, ips, 5*60*1000)
+			return ips, nil
+		}
+	}
+
+	// from upstream
+	if ips, err := client.LookUp(host, &dnsClient.LookUpOptions{Typ: typ}); err != nil {
+		cache.Set(key, []string{}, 1*60*1000)
+		return nil, err
+	} else {
+		cache.Set(key, ips, 5*60*1000)
+		logger.Info("found host(%s %d) %v", host, typ, ips)
+		return ips, nil
+	}
 }
