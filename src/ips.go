@@ -79,7 +79,7 @@ func NewIPS(cfg *Config) *IPS {
 }
 
 // GetByHost returns the IPs of the extract host
-func (i *IPS) GetByHost(host string, typ int) ([]string, error) {
+func (i *IPS) GetByExactHost(host string, typ int) ([]string, error) {
 	key := i.getKey(host, typ)
 
 	// from cache
@@ -92,15 +92,7 @@ func (i *IPS) GetByHost(host string, typ int) ([]string, error) {
 		return ips, nil
 	}
 
-	// from upstream
-	if ips, err := i.client.LookUp(host, &dnsClient.LookUpOptions{Typ: typ}); err != nil {
-		i.cache.Set(key, []string{}, 1*60*1000)
-		return nil, err
-	} else {
-		i.cache.Set(key, ips, 5*60*1000)
-		logger.Info("found host(%s %d) %v", host, typ, ips)
-		return ips, nil
-	}
+	return nil, errors.New("not found exact host:" + host)
 }
 
 // GetByWildcardHost returns the IPs of the wildcard host
@@ -116,6 +108,21 @@ func (i *IPS) GetByWildcardHost(host string, typ int) ([]string, error) {
 	}
 
 	return nil, errors.New("not found wildcard host:" + host)
+}
+
+// SearchByHost returns the IPs of host
+func (i *IPS) SearchByHost(host string, typ int) ([]string, error) {
+	key := i.getKey(host, typ)
+
+	// from upstream
+	if ips, err := i.client.LookUp(host, &dnsClient.LookUpOptions{Typ: typ}); err != nil {
+		i.cache.Set(key, []string{}, 1*60*1000)
+		return nil, err
+	} else {
+		i.cache.Set(key, ips, 5*60*1000)
+		logger.Info("found host(%s %d) %v", host, typ, ips)
+		return ips, nil
+	}
 }
 
 func (i *IPS) getByWildHostOne(host string, typ int) ([]string, error) {

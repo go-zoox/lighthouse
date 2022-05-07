@@ -17,11 +17,15 @@ func Serve(cfg *Config) {
 			return []string{"6.6.6.6"}, nil
 		}
 
+		if ips, err := ipsSearch.GetByExactHost(host, typ); err == nil {
+			return ips, nil
+		}
+
 		if ips, err := ipsSearch.GetByWildcardHost(host, typ); err == nil {
 			return ips, nil
 		}
 
-		return ipsSearch.GetByHost(host, typ)
+		return ipsSearch.SearchByHost(host, typ)
 	})
 
 	server.Serve()
