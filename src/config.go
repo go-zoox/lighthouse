@@ -11,7 +11,7 @@ type Config struct {
 	} `config:"server"`
 	Upstreams []string `config:"upstreams"`
 	Cache     struct {
-		Engine string `config:"engine"`
+		Engine string `config:"engine,default=memory"`
 		MaxAge int64  `config:"max_age"`
 		Config struct {
 			Host     string `config:"host"`

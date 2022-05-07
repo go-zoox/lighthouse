@@ -30,8 +30,15 @@ func NewIPS(cfg *Config) *IPS {
 		Servers: servers,
 	})
 
+	// @TODO
+	engine := cfg.Cache.Engine
+	if engine == "" {
+		engine = "memory"
+	}
+
+	// fmt.Println("cfg.Cache.Engine:", engine)
 	cache, err := kv.New(&kvtyping.Config{
-		Engine: cfg.Cache.Engine,
+		Engine: engine,
 		Config: &redis.RedisConfig{
 			Host:     cfg.Cache.Config.Host,
 			Port:     int(cfg.Cache.Config.Port),
