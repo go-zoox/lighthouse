@@ -1,4 +1,4 @@
-package lighthouse
+package core
 
 import (
 	"errors"
@@ -170,4 +170,15 @@ func (i *IPS) getFromHosts(key string, host string, typ int) ([]string, error) {
 	}
 
 	return nil, errors.New("not found hosts key:" + key)
+}
+
+func (i *IPS) ClearCache() {
+	i.cache.Clear()
+}
+
+// @TODO IPv4 only
+func (i *IPS) SetCache(host string, ips []string) {
+	key := i.getKey(host, 4)
+
+	i.cache.Set(key, ips, 5*60*1000)
 }

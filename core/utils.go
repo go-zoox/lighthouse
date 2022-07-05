@@ -1,4 +1,4 @@
-package lighthouse
+package core
 
 import (
 	"errors"

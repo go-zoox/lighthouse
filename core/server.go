@@ -1,4 +1,4 @@
-package lighthouse
+package core
 
 import (
 	"github.com/go-zoox/dns"
@@ -7,7 +7,7 @@ import (
 // Config is the configuration of lighthouse
 func Serve(cfg *Config) {
 	server := dns.NewServer(&dns.ServerOptions{
-		Port: 53,
+		Port: int(cfg.Server.Port),
 	})
 
 	ipsSearch := NewIPS(cfg)

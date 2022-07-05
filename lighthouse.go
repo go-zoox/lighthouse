@@ -7,11 +7,15 @@ import (
 
 	"github.com/go-zoox/config"
 	"github.com/go-zoox/fs"
+	"github.com/go-zoox/lighthouse/admin"
 	"github.com/go-zoox/lighthouse/constants"
-	lighthouse "github.com/go-zoox/lighthouse/src"
+	"github.com/go-zoox/lighthouse/core"
 	"github.com/go-zoox/logger"
 	"github.com/urfave/cli/v2"
 )
+
+// //go:embed admin/static
+// var StaticFS embed.FS
 
 func main() {
 	app := &cli.App{
@@ -40,7 +44,7 @@ func main() {
 			// 	os.Exit(1)
 			// }
 
-			var cfg lighthouse.Config
+			var cfg core.Config
 
 			if configFilePath != "" {
 				if !fs.IsExist(configFilePath) {
@@ -73,7 +77,9 @@ func main() {
 				logger.Debug("config: %v", cfg)
 			}
 
-			lighthouse.Serve(&cfg)
+			go admin.Start(&cfg.Web, &cfg)
+
+			core.Serve(&cfg)
 
 			return nil
 		},

@@ -7,3 +7,4 @@ services:
       dockerfile: Dockerfile
     ports:
       - 0.0.0.0:53:53/udp
+      - 0.0.0.0:8080:8080/tcp

@@ -1,4 +1,8 @@
-package lighthouse
+package core
+
+import (
+	cc "github.com/go-zoox/connect/config"
+)
 
 // Config is the configuration of lighthouse
 type Config struct {
@@ -30,4 +34,5 @@ type Config struct {
 		Enable bool   `config:"enable"`
 		File   string `config:"file"`
 	} `config:"hosts"`
+	Web cc.Config `config:"web"`
 }
