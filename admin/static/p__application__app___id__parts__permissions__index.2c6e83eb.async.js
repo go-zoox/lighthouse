@@ -1,0 +1,1 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([[12],{wikD:function(w,n,a){"use strict";a.r(n);var e=a("Qbqb");n["default"]=e["default"]}}]);

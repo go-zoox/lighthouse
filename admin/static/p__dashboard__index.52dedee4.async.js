@@ -1,0 +1,1 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([[24],{"0rWx":function(a,n,e){"use strict";e.r(n);var s=e("q1tI"),t=e.n(s),o=e("lRau"),r=e.n(o);n["default"]=(()=>t.a.createElement(r.a,{to:"/dashboard/analysis"}))}}]);

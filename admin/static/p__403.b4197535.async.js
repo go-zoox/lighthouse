@@ -1,0 +1,1 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([[2],{Yujw:function(n,e,a){"use strict";a.r(e);var t=a("q1tI"),w=a.n(t),c=a("cCfp");e["default"]=(()=>w.a.createElement(c["a"],null))}}]);

@@ -1,0 +1,1 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([[51],{QeBL:function(e,t,n){"use strict";n.r(t);var a=n("q1tI"),o=n.n(a),u=n("lRau"),r=n.n(u),s=n("/MKj");t["default"]=(()=>{var e=Object(s["g"])(e=>e.menus.home);return e?o.a.createElement(r.a,{to:e}):o.a.createElement("div",null,"Cannot get home at state.menus.home")})}}]);
