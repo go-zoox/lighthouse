@@ -1,7 +1,7 @@
 # Builder
 FROM golang:1.18-alpine as builder
 
-RUN         apk add --no-cache make git
+RUN         apk add --no-cache gcc g++ make git
 
 WORKDIR     /app
 
