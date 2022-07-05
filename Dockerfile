@@ -19,7 +19,7 @@ ARG         COMMIT_HASH=unknown
 
 COPY        . ./
 
-RUN         CGO_ENABLED=0 \
+RUN         CGO_ENABLED=1 \
             GOOS=linux \
             GOARCH=amd64 \
             go build \

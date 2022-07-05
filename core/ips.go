@@ -53,7 +53,7 @@ func NewIPS(cfg *Config) *IPS {
 		},
 	})
 	if err != nil {
-		logger.Error("failed to create cache", err)
+		logger.Error("failed to create cache: %s", err)
 		os.Exit(1)
 	}
 
@@ -66,7 +66,7 @@ func NewIPS(cfg *Config) *IPS {
 
 		hosts = hostsParser.New(hostsFile)
 		if err := hosts.Load(); err != nil {
-			logger.Error("failed to load hosts file", err)
+			logger.Error("failed to load hosts file: %s", err)
 			os.Exit(1)
 		}
 	}
