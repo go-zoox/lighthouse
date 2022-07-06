@@ -55,7 +55,7 @@ func main() {
 				if err := config.Load(&cfg, &config.LoadOptions{
 					FilePath: configFilePath,
 				}); err != nil {
-					logger.Error("failed to read config file", err)
+					logger.Error("failed to read config file: %s", err)
 					os.Exit(1)
 				}
 
@@ -65,7 +65,7 @@ func main() {
 			} else {
 				port, err := strconv.Atoi(c.String("port"))
 				if err != nil {
-					logger.Error("failed to parse port", err)
+					logger.Error("failed to parse port: %s", err)
 					os.Exit(1)
 				}
 
