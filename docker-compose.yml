@@ -5,6 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    # command: sleep infinity
     volumes:
       - ./conf:/conf
       - ./data:/data

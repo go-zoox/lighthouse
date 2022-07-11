@@ -33,7 +33,7 @@ RUN         CGO_ENABLED=1 \
               -v -o lighthouse
 
 # Product
-FROM  scratch
+FROM        golang:1.18-alpine
 
 LABEL       MAINTAINER="Zero<tobewhatwewant@gmail.com>"
 
@@ -41,13 +41,11 @@ LABEL       org.opencontainers.image.source="https://github.com/go-zoox/lighthou
 
 ARG         VERSION=v1.0.0
 
+ENV         MODE=production
+
 COPY        --from=builder /app/lighthouse /
 
 COPY        conf/lighthouse.yaml /conf/lighthouse.yaml
-
-EXPOSE      53
-
-ENV         GIN_MODE=release
 
 ENV         VERSION=${VERSION}
 

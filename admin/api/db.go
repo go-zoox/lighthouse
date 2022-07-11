@@ -4,12 +4,12 @@ import (
 	"os"
 	"time"
 
-	"github.com/go-zoox/fs"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
 
 var Db *gorm.DB
+var SQLitePath = "./data/sqlite3.db"
 
 type DNS struct {
 	ID        uint           `gorm:"primarykey" json:"id"`
@@ -29,10 +29,16 @@ type DNS struct {
 	Description string `json:"description"`
 }
 
+func init() {
+	// @TODO
+	if os.Getenv("MODE") == "production" {
+		SQLitePath = "/data/sqlite3.db"
+	}
+}
+
 func GetDB() *gorm.DB {
 	if Db == nil {
-		pwd, _ := os.Getwd()
-		db, err := gorm.Open(sqlite.Open(fs.JoinPath(pwd, "data/sqlite3.db")), &gorm.Config{})
+		db, err := gorm.Open(sqlite.Open(SQLitePath), &gorm.Config{})
 		if err != nil {
 			panic("failed to connect database")
 		}

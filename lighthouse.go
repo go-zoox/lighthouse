@@ -44,6 +44,10 @@ func main() {
 			// 	os.Exit(1)
 			// }
 
+			if os.Getenv("MODE") == "production" {
+				configFilePath = "/conf/lighthouse.yaml"
+			}
+
 			var cfg core.Config
 
 			if configFilePath != "" {
