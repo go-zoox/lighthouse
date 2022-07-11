@@ -4,6 +4,7 @@ import (
 	"strconv"
 
 	"github.com/go-zoox/zoox"
+	"github.com/pkg/errors"
 	"gorm.io/gorm"
 )
 
@@ -81,8 +82,8 @@ func Update() zoox.HandlerFunc {
 			panic(err)
 		}
 
-		if dnsOrigin := DBRetrieve(id); dnsOrigin != nil {
-			panic(err)
+		if dnsOrigin := DBRetrieve(id); dnsOrigin == nil {
+			panic(errors.Errorf("Cannot found dns with id: %d", id))
 		} else {
 			dnsOrigin.Host = dnsDTO.Host
 			dnsOrigin.Value = dnsDTO.Value

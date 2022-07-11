@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"time"
 
 	"github.com/go-zoox/dns"
 	dnsClient "github.com/go-zoox/dns/client"
@@ -180,5 +181,6 @@ func (i *IPS) ClearCache() {
 func (i *IPS) SetCache(host string, ips []string) {
 	key := i.getKey(host, 4)
 
-	i.cache.Set(key, ips, 5*60*1000)
+	fmt.Println("set cache:", key, ips)
+	i.cache.Set(key, ips, 5*60*1000*time.Second)
 }

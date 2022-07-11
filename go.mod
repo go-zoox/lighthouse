@@ -9,7 +9,8 @@ require (
 	github.com/go-zoox/fs v1.2.4
 	github.com/go-zoox/kv v1.4.2
 	github.com/go-zoox/logger v1.2.0
-	github.com/go-zoox/zoox v1.0.29
+	github.com/go-zoox/zoox v1.0.30
+	github.com/pkg/errors v0.9.1
 	github.com/urfave/cli/v2 v2.4.0
 	gorm.io/driver/sqlite v1.3.5
 	gorm.io/gorm v1.23.7
@@ -62,7 +63,6 @@ require (
 	github.com/miekg/dns v1.1.50 // indirect
 	github.com/nxadm/tail v1.4.8 // indirect
 	github.com/onsi/ginkgo v1.16.5 // indirect
-	github.com/pkg/errors v0.9.1 // indirect
 	github.com/rogpeppe/go-internal v1.8.1 // indirect
 	github.com/russross/blackfriday/v2 v2.1.0 // indirect
 	github.com/steambap/captcha v1.4.1 // indirect
@@ -73,7 +73,7 @@ require (
 	golang.org/x/image v0.0.0-20220617043117-41969df76e82 // indirect
 	golang.org/x/mod v0.6.0-dev.0.20220419223038-86c51ed26bb4 // indirect
 	golang.org/x/net v0.0.0-20220630215102-69896b714898 // indirect
-	golang.org/x/sys v0.0.0-20220704084225-05e143d24a9e // indirect
+	golang.org/x/sys v0.0.0-20220708085239-5a0f0661e09d // indirect
 	golang.org/x/text v0.3.7 // indirect
 	golang.org/x/tools v0.1.11 // indirect
 	golang.org/x/xerrors v0.0.0-20220609144429-65e65417b02f // indirect
