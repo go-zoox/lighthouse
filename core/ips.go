@@ -117,10 +117,10 @@ func (i *IPS) SearchByHost(host string, typ int) ([]string, error) {
 
 	// from upstream
 	if ips, err := i.client.LookUp(host, &dnsClient.LookUpOptions{Typ: typ}); err != nil {
-		i.cache.Set(key, []string{}, 1*60*1000)
+		i.cache.Set(key, []string{}, 1*60*1000*time.Second)
 		return nil, err
 	} else {
-		i.cache.Set(key, ips, 5*60*1000)
+		i.cache.Set(key, ips, 5*60*1000*time.Second)
 		logger.Info("found host(%s %d) %v", host, typ, ips)
 		return ips, nil
 	}
@@ -165,7 +165,7 @@ func (i *IPS) getFromHosts(key string, host string, typ int) ([]string, error) {
 	if i.hosts != nil {
 		if ip, err := i.hosts.LookUp(host, typ); err == nil {
 			ips := []string{ip}
-			i.cache.Set(key, ips, 5*60*1000)
+			i.cache.Set(key, ips, 5*60*1000*time.Second)
 			return ips, nil
 		}
 	}
