@@ -1,6 +1,6 @@
 module github.com/go-zoox/lighthouse
 
-go 1.18
+go 1.19
 
 require (
 	github.com/go-zoox/config v1.0.6
