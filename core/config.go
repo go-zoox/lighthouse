@@ -1,7 +1,7 @@
 package core
 
 import (
-	cc "github.com/go-zoox/connect/config"
+	cc "github.com/go-zoox/connect/app/config"
 )
 
 // Config is the configuration of lighthouse

@@ -7,8 +7,8 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/go-zoox/connect"
-	"github.com/go-zoox/connect/config"
+	connect "github.com/go-zoox/connect/app"
+	"github.com/go-zoox/connect/app/config"
 	"github.com/go-zoox/lighthouse/admin/api"
 	"github.com/go-zoox/lighthouse/core"
 	"github.com/go-zoox/zoox"

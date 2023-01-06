@@ -18,6 +18,7 @@ import (
 
 // IPS is the IPs manager
 type IPS struct {
+	logger *logger.Logger
 	cache  kvtyping.KV
 	hosts  *hostsParser.Hosts
 	client *dnsClient.Client
@@ -25,6 +26,8 @@ type IPS struct {
 
 // NewIPS creates a new IPS
 func NewIPS(cfg *Config) *IPS {
+	log := logger.New()
+
 	var servers []string = cfg.Upstreams
 	hostsEnable := cfg.Hosts.Enable
 	hostsFile := cfg.Hosts.File
@@ -54,25 +57,26 @@ func NewIPS(cfg *Config) *IPS {
 		},
 	})
 	if err != nil {
-		logger.Error("failed to create cache: %s", err)
+		log.Errorf("failed to create cache: %s", err)
 		os.Exit(1)
 	}
 
 	var hosts *hostsParser.Hosts
 	if hostsEnable {
 		if !fs.IsExist(hostsFile) {
-			logger.Error("hosts file(%s) not found", hostsFile)
+			log.Errorf("hosts file(%s) not found", hostsFile)
 			os.Exit(1)
 		}
 
 		hosts = hostsParser.New(hostsFile)
 		if err := hosts.Load(); err != nil {
-			logger.Error("failed to load hosts file: %s", err)
+			log.Errorf("failed to load hosts file: %s", err)
 			os.Exit(1)
 		}
 	}
 
 	return &IPS{
+		logger: log,
 		cache:  cache,
 		hosts:  hosts,
 		client: client,
@@ -181,6 +185,6 @@ func (i *IPS) ClearCache() {
 func (i *IPS) SetCache(host string, ips []string) {
 	key := i.getKey(host, 4)
 
-	fmt.Println("set cache:", key, ips)
+	i.logger.Infof("set cache: [%s, %s]", key, ips)
 	i.cache.Set(key, ips, 5*60*1000*time.Second)
 }
