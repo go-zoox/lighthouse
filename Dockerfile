@@ -1,5 +1,5 @@
 # Builder
-FROM golang:1.19-alpine as builder
+FROM golang:1.24-alpine as builder
 
 RUN         apk add --no-cache gcc g++ make git
 
@@ -40,7 +40,7 @@ RUN GOOS=linux \
   -v -o lighthouse
 
 # Product
-FROM        golang:1.19-alpine
+FROM        whatwewant/alpine:v3-1
 
 LABEL       MAINTAINER="Zero<tobewhatwewant@gmail.com>"
 
