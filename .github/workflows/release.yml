@@ -7,7 +7,7 @@ on:
 
 jobs:
   on-success:
-    needs: build
+    needs: release
     runs-on: ubuntu-latest
     if: ${{ always() && needs.release.result == 'success' }}
     steps:
@@ -23,7 +23,7 @@ jobs:
             状态: 构建成功（https://github.com/${{ github.repository }}/actions/runs/${{ github.run.id }}）
 
   on-failure:
-    needs: build
+    needs: release
     runs-on: ubuntu-latest
     if: ${{ always() && needs.release.result == 'failure' }}
     steps:
