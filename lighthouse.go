@@ -7,7 +7,8 @@ import (
 
 	"github.com/go-zoox/config"
 	"github.com/go-zoox/fs"
-	"github.com/go-zoox/lighthouse/admin"
+
+	// "github.com/go-zoox/lighthouse/admin"
 	"github.com/go-zoox/lighthouse/constants"
 	"github.com/go-zoox/lighthouse/core"
 	"github.com/go-zoox/logger"
@@ -81,7 +82,7 @@ func main() {
 				logger.Debug("config: %v", cfg)
 			}
 
-			go admin.Start(&cfg.Web, &cfg)
+			// go admin.Start(&cfg.Web, &cfg)
 
 			core.Serve(&cfg)
 
